@@ -1,0 +1,202 @@
+<html>
+<head>
+	<title>Bob's trycatch asessment</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+
+      var map;
+      function initialize() {
+        var mapOptions = {
+          zoom: 8,
+          center: new google.maps.LatLng(-34.397, 150.644)
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>    
+    <style>
+       html, body, #map-canvas {
+          height: 100%;
+          margin: 0px;
+          padding: 0px
+        }
+        #progress_bar {
+          margin: 10px 0;
+          padding: 3px;
+          border: 1px solid #000;
+          font-size: 14px;
+          clear: both;
+          opacity: 0;
+          -moz-transition: opacity 1s linear;
+          -o-transition: opacity 1s linear;
+          -webkit-transition: opacity 1s linear;
+        }
+        #progress_bar.loading {
+          opacity: 1.0;
+        }
+        #progress_bar .percent {
+          background-color: #99ccff;
+          height: auto;
+          width: 0;
+        }
+    </style>
+
+
+</head>
+<body>
+
+
+<br>
+
+File:
+<input type="file" id="files" name="file" />
+<button onclick="abortRead();">Cancel read</button>
+<div id="progress_bar"><div class="percent">0%</div></div>
+Result:
+<div id="tablecsv">
+	<table>
+	</table>	
+<div>
+Map:
+<div id="map-canvas">
+</div>
+
+
+<script>
+
+  // Read CSV File
+
+  var reader;
+  var progress = document.querySelector('.percent');
+  var csvOK = false;
+
+  function abortRead() {
+  	console.log("abortRead");
+    reader.abort();
+  }
+
+  function errorHandler(evt) {
+  	console.log("errorHandler");
+    switch(evt.target.error.code) {
+      case evt.target.error.NOT_FOUND_ERR:
+        alert('File Not Found!');
+        break;
+      case evt.target.error.NOT_READABLE_ERR:
+        alert('File is not readable');
+        break;
+      case evt.target.error.ABORT_ERR:
+        break; // noop
+      default:
+        alert('An error occurred reading this file.');
+    };
+  }
+
+  function updateProgress(evt) {
+  	console.log("updateProress");
+    // evt is an ProgressEvent.
+    if (evt.lengthComputable) {
+      var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+      // Increase the progress bar length.
+      if (percentLoaded < 100) {
+        progress.style.width = percentLoaded + '%';
+        progress.textContent = percentLoaded + '%';
+      }
+    }
+  }
+
+  function handleFileSelect(evt) {
+    // Reset progress indicator on new file selection.
+    console.log("handleFileSelect");
+    progress.style.width = '0%';
+    progress.textContent = '0%';
+	csvOK = false;	
+
+    reader = new FileReader();    
+    if (FileReader != "undefined") {
+    		var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+    		console.log("csv test");
+    		console.log(evt);
+    		fileName = evt.target.files[0].name.toLowerCase();
+    		fileExtension = fileName.split('.').pop().toLowerCase();
+    		if (fileExtension == "csv") {
+			    reader.onerror = errorHandler;
+			    reader.onprogress = updateProgress;
+			    reader.onabort = function(e) {
+			      alert('File read cancelled');
+			    };
+			    reader.onloadstart = function(e) {
+			      document.getElementById('progress_bar').className = 'loading';
+			      csvOK = false;
+			    };
+			    reader.onload = function(e) {
+			      // Ensure that the progress bar displays 100% at the end.
+			      progress.style.width = '100%';
+			      progress.textContent = '100%';
+			      setTimeout("document.getElementById('progress_bar').className='';", 2000);
+			      console.log("File loaded");
+
+
+
+			      // Render table
+
+			     // var table = $("<table />");
+			     console.log("build table from: " + e.target.res);
+			     
+                    var rows = e.target.result.split("\n");
+                    for (var i = 0; i < rows.length; i++) {
+                        console.log("row " + i + " start");
+                        var cells = rows[i].split(",");
+                        for (var j = 0; j < cells.length; j++) {
+                        	cell = cells[j];
+							console.log("row " + i + " append cell " + j + ": " + cell);
+                        }
+                        console.log("row end");
+                    }
+
+                 csvOK = true;
+                 onCSVLoaded(reader);
+
+			    }
+			 }
+			 else {
+			 	console.log("not a valid CSV file.");
+				alert("Please upload a valid CSV file."); 	
+			 }   
+		  }
+		  else {
+		  	console.log("browser don't support HTML5.");
+		  	alert("This browser does not support HTML5.");
+		  }
+
+    // Read in the image file as text string.
+    
+    reader.readAsText(evt.target.files[0]);
+    //console.log("File readed reader:");
+    //console.log(reader);
+    
+
+    // try to parse it
+
+  } // END handleFileSelect
+
+  function onCSVLoaded(reader) {
+  	console.log("onCSVLoaded")
+  	console.log("File readed reader:");
+    console.log("csvOK: " + csvOK);
+  }
+
+  console.log("settingListener");
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+
+
+
+
+
+</body>
+</html>
