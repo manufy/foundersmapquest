@@ -1,13 +1,18 @@
-require(["order!vendor/jquery-1.7.2",
-         "order!vendor/jquery-ui-1.8.19.custom.min",
+require(["order!vendor/jquery-2.1.3.min",
+         //"order!vendor/jquery-ui-1.8.19.custom.min",
          "order!vendor/underscore-min",
          "order!vendor/underscore.string.min",
          "order!vendor/less.min",
          "order!vendor/haml",
          "order!vendor/angular.min",
+         "order!vendor/jquery.dataTables.min",
+         "order!vendor/dataTables.bootstrap",
+         //"order!vendor/dataTables.responsive",
+         "order!vendor/dataTables.colReorder",
         // ZEPTO ERROR EN IE9 "order!vendor/zepto.min",
          "order!coffeejs/angular-init",
-         "order!coffeejs/angular-app"
+         "order!coffeejs/angular-app",
+        // "order!appView"
          ], function ($) {
 	
 
@@ -20,6 +25,20 @@ require(["order!vendor/jquery-1.7.2",
 });
 
 function app() {
-	InitCoffeeScriptAgentView();
+	//appView();
+    
+        $('#example').dataTable().on('column-reorder', function (e, oSettings, reorderSettings) {
+            console.log("column reorder");
+            var i, iLen, iCols = oSettings.aoColumns.length;
+            for (i = 0, iLen = iCols; i < iLen; i++) {
+                $(oSettings.aoColumns[i].nTh).off('click');
+                oSettings.oApi._fnSortAttachListener(oSettings, oSettings.aoColumns[i].nTh, oSettings.aoColumns[i]._ColReorder_iOrigCol);
+            }
+        });
+
 }
+
+
+
+
 
