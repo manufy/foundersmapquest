@@ -284,7 +284,7 @@ function handleFileSelect(evt) {
 
         // try to parse it
 
-    } // END handleFileSelect
+} // END handleFileSelect
 
 function onCSVLoaded(reader) {
     console.log("onCSVLoaded")
@@ -295,8 +295,43 @@ function onCSVLoaded(reader) {
     console.log("Destroying " + table);
     clearDataTable();
     createDataTable(tableHeaders, tableContents);
+    
+    
+    // Reload combos with marker, lat, lon
+    
+    combomarker=$("#csvmapmarkerfield");
+    
+    fieldCounter = 0;
+    tableHeaders.forEach(function(entry) {
+        console.log(entry);
+    
+        addOptionSelect(entry, $("#csvmapmarkerfield"),"Company Name", fieldCounter);
+        addOptionSelect(entry, $("#csvlonfield"),"Garage Longitude", fieldCounter);
+        addOptionSelect(entry, $("#csvlatfield"),"Garage Latitude", fieldCounter);
+        fieldCounter++;
+    });
+    
     refreshMarkers();
     location.href="#datatabletitle";
+}
+
+function addOptionSelect(entry, element,selected) {
+     if (entry.title != "Select") { // Slip first header
+    
+          optiontext = "<option>";
+          if (entry.title == selected) {
+              valueselected = true;
+              console.log("selected: " + entry.title );
+          }
+          else {
+              valueselected = false;
+          }
+          element.append($(optiontext, { 
+                value: fieldCounter,
+                text : entry.title,
+              selected: valueselected
+            }));  
+     }
 }
 
 ////////////////// GOOGLE MAPS API FUNCTIONS ///////////////////
@@ -321,14 +356,27 @@ function drawMarkers() {
     var lats = [];
     var longs = [];
     var rows = $("#example").dataTable().fnGetNodes();
+    console.log("Getting CSV ID");
+    fieldCounterMarker = parseFloat($("#csvmapmarkerfield").val());
+    fieldCounterLat = parseFloat($("#csvlonfield").val());
+    fieldCounterLon = parseFloat($("#csvlatfield").val());
+    
+     //fieldCounterMarker = 2;
+   // fieldCounterLat = 10;
+   // fieldCounterLon = 11;
+    
+    
     for (var i = 0; i < rows.length; i++) {
         //  Only if row selected
         val = $(rows[i]).find("td:eq(0)").val();
         console.log("Checking row selected " + i + " selected: " + val);
         checkid = "ch" + i;
         valcheck = $("#" + checkid)[0].checked
-        console.log("valcheck: " + valcheck);
+        console.log("Table valueid " + i + " checked: " + valcheck);
 
+        
+        
+        
         if (valcheck == true) {
 
             // Get HTML of 3rd column (for example $("#example tr > .child ul li").eq(1).find(".dtr-data").html()
@@ -336,9 +384,22 @@ function drawMarkers() {
             // $("#example tr > .child ul li").eq(1).find(".dtr-data").html()
             //$("#example tr > .child").find("li")
             //  console.log("leido: " + $("#example tr > .child ul li").eq(1).find(".dtr-data").html();
-            cells.push($(rows[i]).find("td:eq(2)").html());
-            lats.push($(rows[i]).find("td:eq(10)").html());
-            longs.push($(rows[i]).find("td:eq(11)").html());
+            //$(rows[i]).find("td:eq(0)").find("#ch0")[0].checked
+            
+            
+            drawMarker=$(rows[i]).find("td:eq(2)").html();
+           // cells.push($(rows[i]).find("td:eq(2)").html());
+        //    lats.push($(rows[i]).find("td:eq(10)").html());
+          //  longs.push($(rows[i]).find("td:eq(11)").html());
+            
+            lon = (tableContents[i][fieldCounterLat]);
+            lat = (tableContents[i][fieldCounterLon]);
+            marker = (tableContents[i][fieldCounterMarker]);
+            
+            lats.push(lat);
+            longs.push(lon);
+            cells.push(marker);
+            
         }
     }
     console.log(cells);
@@ -391,6 +452,7 @@ function drawMarkers() {
 
 
 function refreshMarkers() {
+    humane.log("Map markers refreshed.");
     deleteMarkers();
     drawMarkers();
     centerMarkersOnMap();

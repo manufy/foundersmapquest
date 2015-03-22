@@ -47,3 +47,20 @@
 #example tr:even { background-color: green;}
 
 #example tr  { background-color: green;}
+
+#csvmapmarkerfield {
+    color:black;  
+    size:20;
+}
+
+#csvmapmarkerfield option select {
+   color: red;
+}
+#csvlonfield {
+    color:black;
+    size: 20;
+}
+#csvlatfield {
+    color:black;
+    size:20;
+}
