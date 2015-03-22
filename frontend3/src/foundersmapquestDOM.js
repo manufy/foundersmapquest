@@ -80,7 +80,24 @@ document.getElementById('files').addEventListener('change', handleFileSelect, fa
 ///////////// DOCUMENT READY ////////////////
 
 $(document).ready(function () {
+    
+    // onChange Select for Marker, Lat & Lon
+    
+    $('#csvmapmarkerfield').on('change', function() {
+        refreshMarkers();
+    });
+    
+    $('#csvlonfield').on('change', function() {
+        refreshMarkers();
+    });
+    
+    $('#csvlatfield').on('change', function() {
+        refreshMarkers();
+    });
+    
+    
     console.log("document ready");
+    $("#csvselectors").hide();
     $('#demo').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%"></table>');
 
     $('#example').dataTable({

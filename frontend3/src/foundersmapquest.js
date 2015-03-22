@@ -1,6 +1,7 @@
 console.log("foundersmapquest.js init");
 
 
+
 var tableHeaders = [];
 var tableContents = [];
 var Markers = [];
@@ -310,7 +311,7 @@ function onCSVLoaded(reader) {
         addOptionSelect(entry, $("#csvlatfield"),"Garage Latitude", fieldCounter);
         fieldCounter++;
     });
-    
+    $("#csvselectors").show();
     refreshMarkers();
     location.href="#datatabletitle";
 }
@@ -452,11 +453,17 @@ function drawMarkers() {
 
 
 function refreshMarkers() {
-    humane.log("Map markers refreshed.");
-    deleteMarkers();
-    drawMarkers();
-    centerMarkersOnMap();
-
+    
+    try {
+        deleteMarkers();
+        drawMarkers();
+        centerMarkersOnMap();
+        humane.log("Map markers refreshed.");
+    }
+    catch(err) {
+        humane.log("Didn't found valid info for map refreshing.");
+        }
+    
 }
 
 function centerMarkersOnMap() {
