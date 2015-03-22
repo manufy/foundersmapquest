@@ -1,13 +1,14 @@
-console.log("foundersmapquest.js init");
+Logger("foundersmapquest.js Init");
 
+// GLOBALS //
 
-
+var DEBUG = true; // If true debug messages goes to console
 var tableHeaders = [];
 var tableContents = [];
 var Markers = [];
 var infoWindows = [];
-
 var table = null;
+var map;
 
 /* DEPRECATED, for testing purposes */
 
@@ -18,18 +19,24 @@ var dataSet = [
 
 ];
 
-console.log("initialize map")
-var map;
+
 
 
 /////////////////// FUNCTIONS ////////////////////////
 
+// if DEBUG then log to console (default true)
+
+function Logger(logtext) {
+    if (DEBUG === true) {
+        console.log(logtext);
+    }
+}
 
 
 ///////////////////////// DATA TABLE FUNCTIONS /////////////////////////////////////
 
 function toggleDataTableCheckbox(id) {
-    console.log("Regenerate map");
+    Logger("Regenerating map");
     refreshMarkers();
     location.href = "#maptitle";
 }
@@ -47,14 +54,14 @@ function createDataTable(tableHeaders, tableContents) {
 
     tableContentsFiltered = [];
     for (i = 0; i < tableContents.length; i++) {
-        console.log("Checking contents ...");
+        Logger("Checking tableContents ...");
         row = []
         if (tableContents[i].length == tableColums.length) {
             tableContentsFiltered.push(tableContents[i]);
         }
     }
 
-    console.log("tableContentsFiltered: " + tableContentsFiltered);
+    Logger("tableContentsFiltered: " + tableContentsFiltered);
 
     // Check if CSV HEADER complaints with requirements
 
@@ -71,7 +78,7 @@ function createDataTable(tableHeaders, tableContents) {
         // Add Specials to headers, like color, see photos or link pages
 
         if (tableHeaders[i].title.trim() == "Photo") {
-            console.log("Detected Photo Header");
+            Logger("Detected Photo Header");
             tableHeaders[i].class = "center";
             tableHeaders[i].mRender = function (data, type, full) {
                 return '<a href="' + data + '"><img src="' + data + '"  width="42" ></a>';
@@ -79,7 +86,7 @@ function createDataTable(tableHeaders, tableContents) {
         }
 
         if (tableHeaders[i].title.trim() == "Home Page") {
-            console.log("Detected Home Page Header");
+            Logger("Detected Home Page Header");
             tableHeaders[i].mRender = function (data, type, full) {
                 return '<a href="' + data + '">' + data + '</a>';
             }
@@ -88,7 +95,7 @@ function createDataTable(tableHeaders, tableContents) {
 
     }
 
-    console.log("headersOK: " + headersOK);
+    Logger("headersOK: " + headersOK);
 
     if (headersOK) {
         humane.log("Table Data is a correct CSV, showing it.")
@@ -117,10 +124,8 @@ function createDataTable(tableHeaders, tableContents) {
         "oColReorder": {
             "fnReorderCallback": function () {
                 var colReorder = new $.fn.dataTable.ColReorder($('#example').dataTable());
-                console.log(colReorder);
-                //console.log($('#example').dataTable().oSettings);
-                //console.log(aoColumns);
-                console.log('Columns reordered');
+                Logger(colReorder);
+                Logger('Columns reordered');
             }
         }
     });
@@ -135,28 +140,28 @@ function createDataTable(tableHeaders, tableContents) {
 
 
 function abortRead() {
-    console.log("abortRead");
+    Logger("abortRead");
     reader.abort();
 }
 
 function errorHandler(evt) {
-    console.log("errorHandler");
+    Logger("errorHandler");
     switch (evt.target.error.code) {
     case evt.target.error.NOT_FOUND_ERR:
-        alert('File Not Found!');
+        humane.log('File Not Found!');
         break;
     case evt.target.error.NOT_READABLE_ERR:
-        alert('File is not readable');
+        humane.log('File is not readable');
         break;
     case evt.target.error.ABORT_ERR:
         break; // noop
     default:
-        alert('An error occurred reading this file.');
+        humane.log('An error occurred reading this file.');
     };
 }
 
 function updateProgress(evt) {
-    console.log("updateProress");
+    Logger("updateProgress");
     // evt is an ProgressEvent.
     if (evt.lengthComputable) {
         var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
@@ -170,7 +175,7 @@ function updateProgress(evt) {
 
 function handleFileSelect(evt) {
         // Reset progress indicator on new file selection.
-        console.log("handleFileSelect");
+        Logger("handleFileSelect");
         progress.style.width = '0%';
         progress.textContent = '0%';
         csvOK = false;
@@ -178,15 +183,15 @@ function handleFileSelect(evt) {
         reader = new FileReader();
         if (FileReader != "undefined") {
             var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-            console.log("csv test");
-            console.log(evt);
+            Logger("csv test");
+            Logger(evt);
             fileName = evt.target.files[0].name.toLowerCase();
             fileExtension = fileName.split('.').pop().toLowerCase();
             if (fileExtension == "csv") {
                 reader.onerror = errorHandler;
                 reader.onprogress = updateProgress;
                 reader.onabort = function (e) {
-                    alert('File read cancelled');
+                    humane.log('File read cancelled');
                 };
                 reader.onloadstart = function (e) {
                     document.getElementById('progress_bar').className = 'loading';
@@ -197,31 +202,29 @@ function handleFileSelect(evt) {
                     progress.style.width = '100%';
                     progress.textContent = '100%';
                     setTimeout("document.getElementById('progress_bar').className='';", 2000);
-                    console.log("File loaded");
+                    Logger("File loaded");
 
-
-
+                        
+                    // Parse CSV and    
                     // Render table
 
                     tableHeaders = [];
                     tableContents = [];
+                    csvseparator = $("#selectcsv :selected").html()
 
                     // var table = $("<table />");
-                    console.log("build table from: " + e.target.res);
+                    Logger("build table from: " + e.target.res);
                     var firstrow = true;
                     var rows = e.target.result.split("\n");
                     for (var i = 0; i < rows.length; i++) {
-                        // console.log("row " + i + " start");
-                        var cells = rows[i].split(",");
+                        var cells = rows[i].split(csvseparator);
                         for (var j = 0; j < cells.length; j++) {
                             cell = cells[j];
-                            //   console.log("row " + i + " append cell " + j + ": " + cell);
-                        }
-                        //  console.log("row end");
+                         }
                         // If it is a HEADER row
                         if (firstrow == true) {
                             // Build Headers    
-                            console.log("Building headers from:" + cells);
+                            Logger("Building headers from:" + cells);
                             tableHeaders.push({
                                 title: "Select"
                             });
@@ -238,52 +241,41 @@ function handleFileSelect(evt) {
                                     title: clean,
                                     "class": "center"
                                 };
-                                tableHeaders.push(element);
-                                console.log("x");
+                                tableHeaders.push(element);                          
                             }
                             firstrow = false;
-                            console.log("tableHeaders: " + tableHeaders);
+                            Logger("tableHeaders: " + tableHeaders);
                         } else { // If it is a DATA row
                             rowData = [];
                             rowData.push("");
                             for (k = 0; k < cells.length; k++) {
+                                
                                 // Strip beginning and aend double quotes
 
                                 clean = cells[k].trim();
-
-
                                 clean = clean.replace(/^"|"$/g, '')
                                 clean = clean.replace(/^'|'$/g, '')
-
-
-                                // clean = clean.substr(1, clean.length-2);
-
-
                                 rowData.push(clean);
                             }
                             tableContents.push(rowData);
                         }
-
                     }
-
                     csvOK = true;
                     onCSVLoaded(reader);
-
                 }
             } else {
-                console.log("not a valid CSV file.");
+                Logger("not a valid CSV file.");
                 humane.log("Please upload a valid CSV file.");
             }
         } else {
-            console.log("browser don't support HTML5.");
+            Logger("browser don't support HTML5.");
             humane.log("This browser does not support HTML5.");
         }
 
-        // Read in the image file as text string.
+        // Read in the CSV file
 
         reader.readAsText(evt.target.files[0]);
-        //console.log("File readed reader:");
-        //console.log(reader);
+     
 
 
         // try to parse it
@@ -291,12 +283,12 @@ function handleFileSelect(evt) {
     } // END handleFileSelect
 
 function onCSVLoaded(reader) {
-    console.log("onCSVLoaded")
-    console.log("File readed reader:");
-    console.log("csvOK: " + csvOK);
-    humane.log("File Loaded.");
-    console.log("Header: " + tableHeaders);
-    console.log("Destroying " + table);
+    Logger("onCSVLoaded")
+    Logger("File readed reader:");
+    Logger("csvOK: " + csvOK);
+    Logger("File Loaded.");
+    Logger("Header: " + tableHeaders);
+    Logger("Regenerating " + table);
     clearDataTable();
     createDataTable(tableHeaders, tableContents);
 
@@ -307,7 +299,7 @@ function onCSVLoaded(reader) {
 
     fieldCounter = 0;
     tableHeaders.forEach(function (entry) {
-        console.log(entry);
+        Logger(entry);
 
         addOptionSelect(entry, $("#csvmapmarkerfield"), "Company Name", fieldCounter);
         addOptionSelect(entry, $("#csvlonfield"), "Garage Longitude", fieldCounter);
@@ -325,7 +317,7 @@ function addOptionSelect(entry, element, selected) {
         optiontext = "<option>";
         if (entry.title == selected) {
             valueselected = true;
-            console.log("selected: " + entry.title);
+            Logger("selected: " + entry.title);
         } else {
             valueselected = false;
         }
@@ -353,14 +345,14 @@ function deleteMarkers() {
 function drawMarkers() {
 
 
-    console.log("viewtabledta");
-    console.log(map);
+    Logger("view table data");
+    Logger(map);
     var cells = [];
     var lats = [];
     var longs = [];
     var tooltiptexts = [];
     var rows = $("#example").dataTable().fnGetNodes();
-    console.log("Getting CSV ID");
+    Logger("Getting CSV ID");
     fieldCounterMarker = parseFloat($("#csvmapmarkerfield").val());
     fieldCounterLat = parseFloat($("#csvlonfield").val());
     fieldCounterLon = parseFloat($("#csvlatfield").val());
@@ -373,10 +365,10 @@ function drawMarkers() {
     for (var i = 0; i < rows.length; i++) {
         //  Only if row selected
         val = $(rows[i]).find("td:eq(0)").val();
-        console.log("Checking row selected " + i + " selected: " + val);
+        Logger("Checking row selected " + i + " selected: " + val);
         checkid = "ch" + i;
         valcheck = $("#" + checkid)[0].checked
-        console.log("Table valueid " + i + " checked: " + valcheck);
+        Logger("Table valueid " + i + " checked: " + valcheck);
 
 
 
@@ -407,9 +399,9 @@ function drawMarkers() {
 
         }
     }
-    console.log(tooltiptexts);
-    console.log(lats);
-    console.log(longs);
+    Logger(tooltiptexts);
+    Logger(lats);
+    Logger(longs);
 
     for (i = 0; i < cells.length; i++) {
 
@@ -433,34 +425,21 @@ function drawMarkers() {
             labelClass: "label",
             title: tooltiptexts[i]
         });
-
-
-
-        var infowindow = new google.maps.InfoWindow({
-            content: "MIINFO"
-        });
-
-        addInfoWindow(marker,'<div style="color: black!important">' + tooltiptexts[i] + '</div>');
-
-
-
-
+        addInfoWindow(marker, '<div style="color: black!important">' + tooltiptexts[i] + '</div>');
         Markers.push(marker);
     }
-
-
 }
 
 function addInfoWindow(marker, message) {
 
-            var infoWindow = new google.maps.InfoWindow({
-                content: message
-            });
+    var infoWindow = new google.maps.InfoWindow({
+        content: message
+    });
 
-            google.maps.event.addListener(marker, 'click', function () {
-                infoWindow.open(map, marker);
-            });
-        }
+    google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open(map, marker);
+    });
+}
 
 
 function refreshMarkers() {
@@ -472,7 +451,7 @@ function refreshMarkers() {
         humane.log("Map markers refreshed.");
     } catch (err) {
         humane.log("Didn't found valid info for map refreshing.");
-        console.log("refreshMarkers Excepcion:" + err);
+        Logger("refreshMarkers Exception:" + err);
     }
 
 }
