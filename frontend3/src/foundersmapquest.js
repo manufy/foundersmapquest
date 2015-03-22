@@ -20,16 +20,15 @@ var map;
 
 /////////////////// FUNCTIONS ////////////////////////
 
-function initialize() {
-    var mapOptions = {
-        zoom: 8,
-        center: new google.maps.LatLng(37, 124.644)
-    };
-    map = new google.maps.Map(document.getElementById('map'),
-        mapOptions);
-}
+
 
 ///////////////////////// DATA TABLE FUNCTIONS /////////////////////////////////////
+
+function toggleDataTableCheckbox (id) {
+    console.log("Regenerate map");
+    refreshMarkers();
+    location.href="#maptitle";
+}
 
 function clearDataTable() {
     table.fnClearTable();
@@ -105,7 +104,7 @@ function createDataTable(tableHeaders, tableContents) {
         "bPaginate": false,
         "columns": tableColums, // headerColumns,
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
-            $('td:eq(0)', nRow).html('<form><input id="ch' + iDataIndex + '"type="checkbox" checked="checked" name="checkbox" class="checkbox" value="' + aData.Id + '"></form>');
+            $('td:eq(0)', nRow).html('<form><input onclick="toggleDataTableCheckbox('+iDataIndex+')" id="ch' + iDataIndex + '"type="checkbox" checked="checked" name="checkbox" class="checkbox" value="' + iDataIndex + '"></form>');
             $('td:eq(5)', nRow).addClass('highlight');
             $('td:eq(10)', nRow).addClass('latitudecolumn');
             $('td:eq(11)', nRow).addClass('longitudecolumn');

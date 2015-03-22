@@ -10,22 +10,18 @@ tableColums = [
                     },
     {
         "title": "Id",
-
         class: "all"
                     },
     {
         "title": "Company Name",
-
         "class": "min-tablet",
                     },
     {
         "title": "Founder",
-
         "class": "min-desktop",
                     },
     {
         "title": "City",
-
         "class": "desktop"
                     },
     {
@@ -34,17 +30,14 @@ tableColums = [
                     },
     {
         "title": "Postal Code",
-
         "class": "desktop",
                     },
     {
         "title": "Street",
-
         "class": "min-desktop",
                     },
     {
         "title": "Photo",
-        "width": "20px",
         "class": "min-tablet",
         // Render column as Image with Hyperlink
         "mRender": function (data, type, full) {
@@ -53,7 +46,6 @@ tableColums = [
                     },
     {
         "title": "Home Page",
-        "width": "20%",
         class: "all",
         // Render column as Hyperlink
         "mRender": function (data, type, full) {
@@ -62,30 +54,30 @@ tableColums = [
                     },
     {
         "title": "Garage Latitude",
-
         class: "all"
 
                     },
     {
         "title": "Garage Longitude",
-
         class: "all"
-
                     }
         ];
 
+
+///////////// DEPRECATED ////////////////
+
+
 $('#viewtabledata').click(function () {
     refreshMarkers();
-
-
 });
 
-
-
+/////////// CSV BUTTON LISTENER //////////////
 
 console.log("settingListener");
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
+
+///////////// DOCUMENT READY ////////////////
 
 $(document).ready(function () {
     console.log("document ready");
@@ -100,29 +92,6 @@ $(document).ready(function () {
                 type: 'column'
             }
         },
-        /*    responsive: {
-        details: {
-            renderer: function ( api, rowIdx ) {
-                // Select hidden columns for the given row
-                var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
-                    var header = $( api.column( cell.column ).header() );
- 
-                    return '<tr>'+
-                            '<td>'+
-                                header.text()+':'+
-                            '</td> '+
-                            '<td>'+
-                                api.cell( cell ).data()+
-                            '</td>'+
-                        '</tr>';
-                } ).toArray().join('');
- 
-                return data ?
-                    $('<table/>').append( data ) :
-                    false;
-            }
-        }
-    },*/
         "columns": tableColums,
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
             console.log("fnCreatedRow");
@@ -141,22 +110,21 @@ $(document).ready(function () {
                 console.log('Columns reordered');
             }
         }
-
-
     });
 
     var lastIdx = null;
     table = $("#example").dataTable();
-    initialize();
+    initializeMapDOM();
 
-
-    $('#example').on('click', 'li', function () {
-        var cellIndx = table.responsive.index(this);
-
-        $(table.cell(cellIndex).node())
-            .addClass('highlight');
-    });
-
-    //google.maps.event.addDomListener(window, 'load', initialize);
 
 }); // Ready
+
+
+function initializeMapDOM() {
+    var mapOptions = {
+        zoom: 8,
+        center: new google.maps.LatLng(37, 124.644)
+    };
+    map = new google.maps.Map(document.getElementById('map'),
+        mapOptions);
+}
