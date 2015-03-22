@@ -8,6 +8,9 @@ var Markers = [];
 var infoWindows = [];
 
 var table = null;
+
+/* DEPRECATED, for testing purposes */
+
 var dataSet = [
     ['', '1', 'Google', 'Larry Page & Sergey Brin', 'Mountain View', 'USA', 'CA 94043', '1600 Amphiteatre Pkwy', 'http://i.forbesimg.com/media/lists/companies/google_416x416.jpg', 'http://google.com', '37.1', '122.2'],
     ['', '2', 'Microsoft', 'Bill Gates', 'View', 'USA', 'CA 94043', '1660 Amphiteatre Pkwy', 'http://www.microsoft.com/About/CorporateCitizenship/en-us/DownloadHandler.ashx?Id=07-03-02', 'http://apple.com', '35.1', '121.2'],
@@ -44,7 +47,7 @@ function createDataTable(tableHeaders, tableContents) {
 
     tableContentsFiltered = [];
     for (i = 0; i < tableContents.length; i++) {
-        console.log("Comprobando contents ...");
+        console.log("Checking contents ...");
         row = []
         if (tableContents[i].length == tableColums.length) {
             tableContentsFiltered.push(tableContents[i]);

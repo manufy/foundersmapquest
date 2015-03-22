@@ -38,7 +38,7 @@ tableColums = [
                     },
     {
         "title": "Photo",
-        "class": "min-tablet",
+        "class": "desktop",
         // Render column as Image with Hyperlink
         "mRender": function (data, type, full) {
             return '<a href="' + data + '"><img src="' + data + '"  width="42" ></a>';
@@ -46,7 +46,7 @@ tableColums = [
                     },
     {
         "title": "Home Page",
-        class: "all",
+        class: "desktop",
         // Render column as Hyperlink
         "mRender": function (data, type, full) {
             return '<a href="' + data + '">' + data + '</a>';
@@ -99,10 +99,10 @@ $(document).ready(function () {
     
     console.log("document ready");
     $("#csvselectors").hide();
-   // $('#demo').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%"></table>');
-
+   
+    
     $('#example').dataTable({
-        "data": dataSet,
+        "data": null,
         "dom": 'Rlfrtip',
         "bPaginate": false,
         responsive: {

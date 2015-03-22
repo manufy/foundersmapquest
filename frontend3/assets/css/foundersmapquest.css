@@ -1,4 +1,9 @@
- .latitudecolumn {
+/* Founders Map Quest main override css */
+/* Copyright Manuel Fernández Yáñez 2015 /*
+
+/* DataTables Founders Map Quest personalization */ 
+
+.latitudecolumn {
             color: red;
         }
         
@@ -35,6 +40,9 @@
             height: auto;
             width: 0;
         }
+
+/*Set table width */
+
 #example {
     width: 100%!important;
 }
@@ -43,23 +51,22 @@
     color: black;
 }
 
-#example tr:odd { background-color:  red; }
-#example tr:even { background-color: green;}
+/* Greenish table background */
 
 #example tr  { background-color: green;}
+
+/* Select fields CSV */
 
 #csvmapmarkerfield {
     color:black;  
     size:20;
 }
 
-#csvmapmarkerfield option select {
-   color: red;
-}
 #csvlonfield {
     color:black;
     size: 20;
 }
+
 #csvlatfield {
     color:black;
     size:20;
