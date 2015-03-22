@@ -1,16 +1,22 @@
 // Read CSV File
 
+// This files initializes main logger dataTable, some jQuery listeners and google maps
+
 var progress = document.querySelector('.percent');
 var csvOK = false;
 
-tableColums = [
+
+
+/* Table column definition with responsive tags */
+
+var tableColums = [
     {
         "title": "Select",
-        class: "all"
+        "class": "all"
                     },
     {
         "title": "Id",
-        class: "all"
+        "class": "all"
                     },
     {
         "title": "Company Name",
@@ -54,12 +60,12 @@ tableColums = [
                     },
     {
         "title": "Garage Latitude",
-        class: "all"
+        "class": "all"
 
                     },
     {
         "title": "Garage Longitude",
-        class: "all"
+        "class": "all"
                     }
         ];
 
@@ -73,34 +79,36 @@ $('#viewtabledata').click(function () {
 
 /////////// CSV BUTTON LISTENER //////////////
 
-console.log("settingListener");
+Logger("DOM - Setting FileReader Listener");
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
 
 ///////////// DOCUMENT READY ////////////////
 
 $(document).ready(function () {
+
+    Logger("DOM Ready");
     
     // onChange Select for Marker, Lat & Lon
-    
-    $('#csvmapmarkerfield').on('change', function() {
+
+    $('#csvmapmarkerfield').on('change', function () {
         refreshMarkers();
     });
-    
-    $('#csvlonfield').on('change', function() {
+
+    $('#csvlonfield').on('change', function () {
         refreshMarkers();
     });
-    
-    $('#csvlatfield').on('change', function() {
+
+    $('#csvlatfield').on('change', function () {
         refreshMarkers();
     });
-    
+
     // Hide CSV selectors until we have a CSV file loaded
-    
-    console.log("document ready");
+
+  
     $("#csvselectors").hide();
-   
-    
+
+
     $('#example').dataTable({
         "data": null,
         "dom": 'Rlfrtip',
@@ -111,8 +119,11 @@ $(document).ready(function () {
             }
         },
         "columns": tableColums,
+        
+        // FOR FUTURE ENHANCEMENTS
+        
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
-            console.log("fnCreatedRow");
+            Logger("fnCreatedRow");
             $('td:eq(0)', nRow).html('<form><input id="ch' + iDataIndex + '"type="checkbox" checked="checked" name="checkbox" class="checkbox" value="' + aData.Id + '"></form>');
             $('td:eq(5)', nRow).addClass('highlight');
             $('td:eq(10)', nRow).addClass('latitudecolumn');
@@ -135,8 +146,9 @@ $(document).ready(function () {
     initializeMapDOM();
 
 
-}); // Ready
+}); // END DOM Ready
 
+// Initialize Google Maps
 
 function initializeMapDOM() {
     var mapOptions = {
@@ -145,5 +157,5 @@ function initializeMapDOM() {
     };
     map = new google.maps.Map(document.getElementById('map'),
         mapOptions);
+    Logger("DOM map initialized");
 }
-
