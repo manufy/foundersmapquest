@@ -4,6 +4,9 @@
 
 3) I created 2 mockups: mockups/app1-elegant with a greyscale bootstrap theme, and mockups/app2-mobile, with a menu more suited for mobile devices
 
-4) I choosed
+4) I choosed the grayscale mockup
 
 5) I merge mockup with frontend2, leaving a MVP (Minimun Viable Product)
+
+6) From there I improved frontend3
+
