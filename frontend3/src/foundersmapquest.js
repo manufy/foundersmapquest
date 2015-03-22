@@ -25,10 +25,10 @@ var map;
 
 ///////////////////////// DATA TABLE FUNCTIONS /////////////////////////////////////
 
-function toggleDataTableCheckbox (id) {
+function toggleDataTableCheckbox(id) {
     console.log("Regenerate map");
     refreshMarkers();
-    location.href="#maptitle";
+    location.href = "#maptitle";
 }
 
 function clearDataTable() {
@@ -105,7 +105,7 @@ function createDataTable(tableHeaders, tableContents) {
         "bPaginate": false,
         "columns": tableColums, // headerColumns,
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
-            $('td:eq(0)', nRow).html('<form><input onclick="toggleDataTableCheckbox('+iDataIndex+')" id="ch' + iDataIndex + '"type="checkbox" checked="checked" name="checkbox" class="checkbox" value="' + iDataIndex + '"></form>');
+            $('td:eq(0)', nRow).html('<form><input onclick="toggleDataTableCheckbox(' + iDataIndex + ')" id="ch' + iDataIndex + '"type="checkbox" checked="checked" name="checkbox" class="checkbox" value="' + iDataIndex + '"></form>');
             $('td:eq(5)', nRow).addClass('highlight');
             $('td:eq(10)', nRow).addClass('latitudecolumn');
             $('td:eq(11)', nRow).addClass('longitudecolumn');
@@ -285,7 +285,7 @@ function handleFileSelect(evt) {
 
         // try to parse it
 
-} // END handleFileSelect
+    } // END handleFileSelect
 
 function onCSVLoaded(reader) {
     console.log("onCSVLoaded")
@@ -296,43 +296,42 @@ function onCSVLoaded(reader) {
     console.log("Destroying " + table);
     clearDataTable();
     createDataTable(tableHeaders, tableContents);
-    
-    
+
+
     // Reload combos with marker, lat, lon
-    
-    combomarker=$("#csvmapmarkerfield");
-    
+
+    combomarker = $("#csvmapmarkerfield");
+
     fieldCounter = 0;
-    tableHeaders.forEach(function(entry) {
+    tableHeaders.forEach(function (entry) {
         console.log(entry);
-    
-        addOptionSelect(entry, $("#csvmapmarkerfield"),"Company Name", fieldCounter);
-        addOptionSelect(entry, $("#csvlonfield"),"Garage Longitude", fieldCounter);
-        addOptionSelect(entry, $("#csvlatfield"),"Garage Latitude", fieldCounter);
+
+        addOptionSelect(entry, $("#csvmapmarkerfield"), "Company Name", fieldCounter);
+        addOptionSelect(entry, $("#csvlonfield"), "Garage Longitude", fieldCounter);
+        addOptionSelect(entry, $("#csvlatfield"), "Garage Latitude", fieldCounter);
         fieldCounter++;
     });
     $("#csvselectors").show();
     refreshMarkers();
-    location.href="#datatabletitle";
+    location.href = "#datatabletitle";
 }
 
-function addOptionSelect(entry, element,selected) {
-     if (entry.title != "Select") { // Slip first header
-    
-          optiontext = "<option>";
-          if (entry.title == selected) {
-              valueselected = true;
-              console.log("selected: " + entry.title );
-          }
-          else {
-              valueselected = false;
-          }
-          element.append($(optiontext, { 
-                value: fieldCounter,
-                text : entry.title,
-              selected: valueselected
-            }));  
-     }
+function addOptionSelect(entry, element, selected) {
+    if (entry.title != "Select") { // Slip first header
+
+        optiontext = "<option>";
+        if (entry.title == selected) {
+            valueselected = true;
+            console.log("selected: " + entry.title);
+        } else {
+            valueselected = false;
+        }
+        element.append($(optiontext, {
+            value: fieldCounter,
+            text: entry.title,
+            selected: valueselected
+        }));
+    }
 }
 
 ////////////////// GOOGLE MAPS API FUNCTIONS ///////////////////
@@ -356,17 +355,18 @@ function drawMarkers() {
     var cells = [];
     var lats = [];
     var longs = [];
+    var tooltiptexts = [];
     var rows = $("#example").dataTable().fnGetNodes();
     console.log("Getting CSV ID");
     fieldCounterMarker = parseFloat($("#csvmapmarkerfield").val());
     fieldCounterLat = parseFloat($("#csvlonfield").val());
     fieldCounterLon = parseFloat($("#csvlatfield").val());
-    
-     //fieldCounterMarker = 2;
-   // fieldCounterLat = 10;
-   // fieldCounterLon = 11;
-    
-    
+
+    //fieldCounterMarker = 2;
+    // fieldCounterLat = 10;
+    // fieldCounterLon = 11;
+
+
     for (var i = 0; i < rows.length; i++) {
         //  Only if row selected
         val = $(rows[i]).find("td:eq(0)").val();
@@ -375,9 +375,9 @@ function drawMarkers() {
         valcheck = $("#" + checkid)[0].checked
         console.log("Table valueid " + i + " checked: " + valcheck);
 
-        
-        
-        
+
+
+
         if (valcheck == true) {
 
             // Get HTML of 3rd column (for example $("#example tr > .child ul li").eq(1).find(".dtr-data").html()
@@ -386,24 +386,25 @@ function drawMarkers() {
             //$("#example tr > .child").find("li")
             //  console.log("leido: " + $("#example tr > .child ul li").eq(1).find(".dtr-data").html();
             //$(rows[i]).find("td:eq(0)").find("#ch0")[0].checked
-            
-            
-            drawMarker=$(rows[i]).find("td:eq(2)").html();
-           // cells.push($(rows[i]).find("td:eq(2)").html());
-        //    lats.push($(rows[i]).find("td:eq(10)").html());
-          //  longs.push($(rows[i]).find("td:eq(11)").html());
-            
+
+
+            drawMarker = $(rows[i]).find("td:eq(2)").html();
+            // cells.push($(rows[i]).find("td:eq(2)").html());
+            //    lats.push($(rows[i]).find("td:eq(10)").html());
+            //  longs.push($(rows[i]).find("td:eq(11)").html());
+
             lon = (tableContents[i][fieldCounterLat]);
             lat = (tableContents[i][fieldCounterLon]);
-            marker = (tableContents[i][fieldCounterMarker]);
-            
+            markertext = (tableContents[i][fieldCounterMarker]);
+
             lats.push(lat);
             longs.push(lon);
+            tooltiptexts.push(markertext);
             cells.push(marker);
-            
+
         }
     }
-    console.log(cells);
+    console.log(tooltiptexts);
     console.log(lats);
     console.log(longs);
 
@@ -424,10 +425,10 @@ function drawMarkers() {
                 fillOpacity: 1 // opacidad del relleno
             },
             map: map,
-            labelContent: "c,dskcsd",
+            labelContent: tooltiptexts[i],
             labelAnchor: new google.maps.Point(10, 10),
             labelClass: "label",
-            title: "Hello World!"
+            title: tooltiptexts[i]
         });
 
 
@@ -435,35 +436,42 @@ function drawMarkers() {
         var infowindow = new google.maps.InfoWindow({
             content: "MIINFO"
         });
-        //infoW
-        //var marker = new google.maps.Marker({map: map, position: myLatlng, clickable: true});
+
+        addInfoWindow(marker,'<div style="color: black!important">' + tooltiptexts[i] + '</div>');
 
 
 
 
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.open(map, marker);
-        });
-        marker.setMap(map);
         Markers.push(marker);
     }
 
 
 }
 
+function addInfoWindow(marker, message) {
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: message
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.open(map, marker);
+            });
+        }
+
 
 function refreshMarkers() {
-    
+
     try {
         deleteMarkers();
         drawMarkers();
         centerMarkersOnMap();
         humane.log("Map markers refreshed.");
-    }
-    catch(err) {
+    } catch (err) {
         humane.log("Didn't found valid info for map refreshing.");
-        }
-    
+        console.log("refreshMarkers Excepcion:" + err);
+    }
+
 }
 
 function centerMarkersOnMap() {

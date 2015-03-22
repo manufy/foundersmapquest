@@ -95,10 +95,11 @@ $(document).ready(function () {
         refreshMarkers();
     });
     
+    // Hide CSV selectors until we have a CSV file loaded
     
     console.log("document ready");
     $("#csvselectors").hide();
-    $('#demo').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%"></table>');
+   // $('#demo').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%"></table>');
 
     $('#example').dataTable({
         "data": dataSet,
@@ -145,3 +146,4 @@ function initializeMapDOM() {
     map = new google.maps.Map(document.getElementById('map'),
         mapOptions);
 }
+
