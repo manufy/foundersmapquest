@@ -45,6 +45,7 @@ var tableColums = [
                     },
     {
         "title": "Photo",
+        "bSortable": false,
         "class": "desktop",
         // Render column as Image with Hyperlink // TAKES PRECEDENCE OVER FOUNDERSMAPQUEST.JS
         "mRender": function (data, type, full) {
