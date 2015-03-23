@@ -21,11 +21,11 @@ var tableColums = [
                     },
     {
         "title": "Company Name",
-        "class": "min-tablet",
+        "class": "desktop",
                     },
     {
         "title": "Founder",
-        "class": "min-desktop",
+        "class": "desktopt",
                     },
     {
         "title": "City",
@@ -41,7 +41,7 @@ var tableColums = [
                     },
     {
         "title": "Street",
-        "class": "min-desktop",
+        "class": "desktop",
                     },
     {
         "title": "Photo",
