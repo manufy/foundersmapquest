@@ -55,7 +55,7 @@ var tableColums = [
     {
         "title": "Home Page",
         class: "desktop",
-        // Render column as Hyperlink
+        // Render column as Hyperlink with blank target
         "mRender": function (data, type, full) {
             return '<a href="' + data + '" target="_blank">' + data + '</a>';
         }

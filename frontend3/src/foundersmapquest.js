@@ -76,7 +76,7 @@ function createDataTable(tableHeaders, tableContents) {
         }
 
         // Add Specials to headers, like color, see photos or link pages
-
+/*
         if (tableHeaders[i].title.trim() == "Photo") {
             Logger("Detected Photo Header");
             tableHeaders[i].class = "center";
@@ -91,7 +91,7 @@ function createDataTable(tableHeaders, tableContents) {
             tableHeaders[i].mRender = function (data, type, full) {
                 return '<a href="' + data + '">' + data + '</a>';
             }
-        }
+        }*/
 
 
     }
