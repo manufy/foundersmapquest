@@ -20,19 +20,19 @@
     <link href="css/grayscale.css" rel="stylesheet">
 
     <!-- Begin portable CSS block -->
-    
-        <!-- Datatables bootstrap CSS -->
-        <link rel="stylesheet" href="css/datatables/dataTables.bootstrap.css">
-    
-        <!-- Optional to get DataTables without Bootstrap -->
-        <!-- <link rel="stylesheet" href="assets/css/vendor/datatables/jquery.dataTables.min.css"> -->
 
-        <link rel="stylesheet" href="css/datatables/dataTables.responsive.css">
-        <link rel="stylesheet" href="css/datatables/dataTables.colReorder.min.css">
-        <link rel="stylesheet" href="css/humane/themes/bigbox.css">
-        <link rel="stylesheet" href="css/lightbox.css">
-        <link rel="stylesheet" href="css/foundersmapquest.css">
-    
+    <!-- Datatables bootstrap CSS -->
+    <link rel="stylesheet" href="css/datatables/dataTables.bootstrap.css">
+
+    <!-- Optional to get DataTables without Bootstrap -->
+    <!-- <link rel="stylesheet" href="assets/css/vendor/datatables/jquery.dataTables.min.css"> -->
+
+    <link rel="stylesheet" href="css/datatables/dataTables.responsive.css">
+    <link rel="stylesheet" href="css/datatables/dataTables.colReorder.min.css">
+    <link rel="stylesheet" href="css/humane/themes/bigbox.css">
+    <link rel="stylesheet" href="css/lightbox.css">
+    <link rel="stylesheet" href="css/foundersmapquest.css">
+
     <!-- End portable CSS block -->
 
     <!-- Custom Fonts -->
@@ -49,24 +49,24 @@
 
 
     <!-- Begin portable JS block -->
-        <!-- humane before all, even require if used -->
-        <!-- Libs: jQuery, Bootstrap, dataTables, easing javascript plugin -->
-        <script src="js/vendor/humane.min.js"></script>
-        <script src="js/vendor/jquery-2.1.3.min.js"></script>
-        <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/vendor/jquery.dataTables.min.js"></script>
-        <script src="js/vendor/dataTables.responsive.js"></script>
-        <script src="js/vendor/dataTables.bootstrap.js"></script>
-        <script src="js/vendor/dataTables.colReorder.js"></script>
-        <script src="js/vendor/lightbox.min.js"></script>
+    <!-- humane before all, even require if used -->
+    <!-- Libs: jQuery, Bootstrap, dataTables, easing javascript plugin -->
+    <script src="js/vendor/humane.min.js"></script>
+    <script src="js/vendor/jquery-2.1.3.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/jquery.dataTables.min.js"></script>
+    <script src="js/vendor/dataTables.responsive.js"></script>
+    <script src="js/vendor/dataTables.bootstrap.js"></script>
+    <script src="js/vendor/dataTables.colReorder.js"></script>
+    <script src="js/vendor/lightbox.min.js"></script>
     <!-- End portable JS block -->
-    
-    
+
+
     <script src="js/vendor/jquery.easing.min.js"></script>
 
     <!-- Main CSS -->
     <script src="src/foundersmapquest.js"></script>
-        
+
     <!-- Google Maps API -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
@@ -120,6 +120,12 @@
                         <h1 class="brand-heading">Map Quest</h1>
                         <p class="intro-text">A story about painting maps with csv files.
                             <br>Created by Manuel Fernández Yáñez.</p>
+                        <center>
+                            <p>
+                                <a href="sample.csv">
+                            </p>Try sample data</a>
+                        </center>
+                        <br>
                         <a href="#about" class="btn btn-circle page-scroll">
                             <i class="fa fa-angle-double-down animated"></i>
                         </a>
@@ -157,8 +163,9 @@
                 <div id="csvselectors">
                     <form>
                         <div class="form-group">
-                            <center><label for="csvmapmarkerfield">Select Marker</label>
-                            <select id="csvmapmarkerfield" class="form-control questdropdown"></select>
+                            <center>
+                                <label for="csvmapmarkerfield">Select Marker</label>
+                                <select id="csvmapmarkerfield" class="form-control questdropdown"></select>
                         </div>
                         <div class="form-group">
                             <label for="csvlonfield">Select Longitude</label>
@@ -174,18 +181,18 @@
 
                     </div>
                 </div>
-            <!-- KLUDGEM DONT SHOW <button onclick="abortRead();">Cancel read</button> -->
-                        <br>
-                        <div id="progress_bar">
-                            <div class="percent">0%</div>
-                        </div>
-                        <a href="#download" class="btn btn-circle page-scroll">
-                            <i class="fa fa-angle-double-down animated"></i>
-                        </a>
-                         <a href="#page-top" class="btn btn-circle page-scroll">
-                                <i class="fa fa-angle-double-up animated"></i>
-                        </a>    
-            
+                <!-- KLUDGEM DONT SHOW <button onclick="abortRead();">Cancel read</button> -->
+                <br>
+                <div id="progress_bar">
+                    <div class="percent">0%</div>
+                </div>
+                <a href="#download" class="btn btn-circle page-scroll">
+                    <i class="fa fa-angle-double-down animated"></i>
+                </a>
+                <a href="#page-top" class="btn btn-circle page-scroll">
+                    <i class="fa fa-angle-double-up animated"></i>
+                </a>
+
     </section>
 
     <!-- //////////////////////////////// DATA TABLE //////////////////////////////////  -->
@@ -200,7 +207,7 @@
                         <table id="example" class="table table-striped table-bordered table-hover dt-responsive" cellspacing="0" width="100%">
                         </table>
                     </div>
-                  <!-- DEPRECATED  <div class="col-lg-12">
+                    <!-- DEPRECATED  <div class="col-lg-12">
                         <button id="viewtabledata" class="btn btn-primary pull-right">See data in map</button>
                     </div> -->
                     <div class="col-md-8 col-md-offset-2">
