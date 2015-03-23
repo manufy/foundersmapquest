@@ -12,7 +12,8 @@ var csvOK = false;
 var tableColums = [
     {
         "title": "Select",
-        "class": "all"
+        "class": "all",
+        "bSortable": false
                     },
     {
         "title": "Id",
@@ -45,17 +46,18 @@ var tableColums = [
     {
         "title": "Photo",
         "class": "desktop",
-        // Render column as Image with Hyperlink
+        // Render column as Image with Hyperlink // TAKES PRECEDENCE OVER FOUNDERSMAPQUEST.JS
         "mRender": function (data, type, full) {
-            return '<a href="' + data + '"><img src="' + data + '"  width="42" ></a>';
+            console.log("mrender: " + data + " " + type + " " + full[3]);
+            return '<a href="' + data + '" data-lightbox="image-'+data+'" data-title="' + full[3] +' at ' + full[2] + '"><img src="' + data + '"  width="42" ></a>';
         }
                     },
     {
         "title": "Home Page",
         class: "desktop",
-        // Render column as Hyperlink
+        // Render column as Hyperlink with blank target
         "mRender": function (data, type, full) {
-            return '<a href="' + data + '">' + data + '</a>';
+            return '<a href="' + data + '" target="_blank">' + data + '</a>';
         }
                     },
     {
@@ -93,14 +95,17 @@ $(document).ready(function () {
 
     $('#csvmapmarkerfield').on('change', function () {
         refreshMarkers();
+        location.href = "#maptitle";
     });
 
     $('#csvlonfield').on('change', function () {
         refreshMarkers();
+        location.href = "#maptitle";
     });
 
     $('#csvlatfield').on('change', function () {
         refreshMarkers();
+        location.href = "#maptitle";
     });
 
     // Hide CSV selectors until we have a CSV file loaded
@@ -113,7 +118,8 @@ $(document).ready(function () {
         "data": null,
         "dom": 'Rlfrtip',
         "bPaginate": false,
-        responsive: {
+        "order": [[2,"asc"]],
+         responsive: {
             details: {
                 type: 'column'
             }
@@ -153,7 +159,41 @@ $(document).ready(function () {
 function initializeMapDOM() {
     var mapOptions = {
         zoom: 8,
-        center: new google.maps.LatLng(37, 124.644)
+        center: new google.maps.LatLng(37, 124.644),
+        
+           styles: [
+    {
+        "stylers": [
+            {
+                "hue": "#ff1a00"
+            },
+            {
+                "invert_lightness": true
+            },
+            {
+                "saturation": -100
+            },
+            {
+                "lightness": 33
+            },
+            {
+                "gamma": 0.5
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#2D333C"
+            }
+        ]
+    }
+]
+    
+        
+        
     };
     map = new google.maps.Map(document.getElementById('map'),
         mapOptions);
