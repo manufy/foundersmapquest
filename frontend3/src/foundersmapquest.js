@@ -81,7 +81,8 @@ function createDataTable(tableHeaders, tableContents) {
             Logger("Detected Photo Header");
             tableHeaders[i].class = "center";
             tableHeaders[i].mRender = function (data, type, full) {
-                return '<a href="' + data + '"><img src="' + data + '"  width="42" ></a>';
+                html =  '<a href="' + data + '"><img src="' + data + '"  width="45" data-lightbox="image-1" data-title="My caption"></a>';
+                return html;
             }
         }
 
@@ -100,10 +101,12 @@ function createDataTable(tableHeaders, tableContents) {
     if (headersOK) {
         humane.log("Table Data is a correct CSV, showing it.")
         $("#viewtabledata").show();
+        $("#csvselectors").show();
         $("#map-canvas").show();
     } else {
-        humane.log("Table Data is a CSV, but not valid, showing it already.")
+        humane.log("Table Data is a CSV, but not valid.")
         $("#viewtabledata").hide();
+        $("#csvselectors").hide();
         $("#map-canvas").hide();
     }
 

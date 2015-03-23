@@ -46,9 +46,10 @@ var tableColums = [
     {
         "title": "Photo",
         "class": "desktop",
-        // Render column as Image with Hyperlink
+        // Render column as Image with Hyperlink // TAKES PRECEDENCE OVER FOUNDERSMAPQUEST.JS
         "mRender": function (data, type, full) {
-            return '<a href="' + data + '"><img src="' + data + '"  width="42" ></a>';
+            console.log("mrender: " + data + " " + type + " " + full[3]);
+            return '<a href="' + data + '" data-lightbox="image-'+data+'" data-title="' + full[3] +' at ' + full[2] + '"><img src="' + data + '"  width="42" ></a>';
         }
                     },
     {
@@ -56,7 +57,7 @@ var tableColums = [
         class: "desktop",
         // Render column as Hyperlink
         "mRender": function (data, type, full) {
-            return '<a href="' + data + '">' + data + '</a>';
+            return '<a href="' + data + '" target="_blank">' + data + '</a>';
         }
                     },
     {
