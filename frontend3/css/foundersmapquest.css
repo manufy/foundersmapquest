@@ -53,7 +53,7 @@
 
 /* Greenish table background */
 
-#example tr  { background-color: green;}
+#example tr  { background-color: #3B3B3B;}
 
 /* Select fields CSV */
 
@@ -72,3 +72,58 @@
     size:20;
 }
 
+/* user menu settings  */
+.questdropdown { 
+  
+  
+  margin: 0 auto;
+  
+  cursor: pointer;
+  border-left: 4px solid #739cda;
+  background: #fff;
+  font-size: 1em;
+  color: #656565;
+  font-weight: normal;
+  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -ms-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+}
+
+.questdropdown:hover { color: #898989; }
+
+.questdropdown.open {
+  background: #5a90e0;
+  color: #fff;
+  border-left-color: #6c6d70;
+}
+
+.questdropdown ul { 
+  position: absolute;
+  top: 100%;
+  left: -4px; /* move content -4px because of container left border  */
+  width: 266px;
+  padding: 5px 0px;
+  display: none;
+  border-left: 4px solid #8e9196;
+  background: #fff;
+  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+.questdropdown ul li { font-size: 0.9em; }
+
+.questdropdown ul li a { 
+  text-decoration: none;
+  display: block;
+  color: #447dd3;
+  padding: 7px 15px;
+}
+.questdropdown ul li a:hover {
+  color: #6fa0e9;
+  background: #e7f0f7;
+}

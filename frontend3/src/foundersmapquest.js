@@ -113,6 +113,7 @@ function createDataTable(tableHeaders, tableContents) {
         "data": tableContentsFiltered, //tableContentsFiltered, //dataSet,
         "dom": 'Rlfrtip',
         "bPaginate": false,
+        "order": [[2,"asc"]],
         "columns": tableColums, // headerColumns,
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
             $('td:eq(0)', nRow).html('<form><input onclick="toggleDataTableCheckbox(' + iDataIndex + ')" id="ch' + iDataIndex + '"type="checkbox" checked="checked" name="checkbox" class="checkbox" value="' + iDataIndex + '"></form>');
@@ -338,6 +339,9 @@ function deleteMarkers() {
     }
     // Markers.Clear();
     Markers = [];
+    var bounds = new google.maps.LatLngBounds(null);
+    map.fitBounds(bounds);
+    
 }
 
 
@@ -364,8 +368,8 @@ function drawMarkers() {
 
     for (var i = 0; i < rows.length; i++) {
         //  Only if row selected
-        val = $(rows[i]).find("td:eq(0)").val();
-        Logger("Checking row selected " + i + " selected: " + val);
+        //val = $(rows[i]).find("td:eq(0)").val();
+        //Logger("Checking row selected " + i + " selected: " + val);
         checkid = "ch" + i;
         valcheck = $("#" + checkid)[0].checked
         Logger("Table valueid " + i + " checked: " + valcheck);
@@ -383,7 +387,7 @@ function drawMarkers() {
             //$(rows[i]).find("td:eq(0)").find("#ch0")[0].checked
 
 
-            drawMarker = $(rows[i]).find("td:eq(2)").html();
+            //drawMarker = $(rows[i]).find("td:eq(2)").html();
             // cells.push($(rows[i]).find("td:eq(2)").html());
             //    lats.push($(rows[i]).find("td:eq(10)").html());
             //  longs.push($(rows[i]).find("td:eq(11)").html());
@@ -406,7 +410,7 @@ function drawMarkers() {
     for (i = 0; i < cells.length; i++) {
 
         var myLatlng = new google.maps.LatLng(parseFloat(lats[i]), parseFloat(longs[i]));
-
+     
 
         var marker = new google.maps.Marker({
             position: myLatlng,
@@ -425,20 +429,44 @@ function drawMarkers() {
             labelClass: "label",
             title: tooltiptexts[i]
         });
-        addInfoWindow(marker, '<div style="color: black!important">' + tooltiptexts[i] + '</div>');
+        
+  
+        
+        addInfoWindow(marker, '<div style="color: black!important"><b>' + tooltiptexts[i] + '</b></div>');        
         Markers.push(marker);
     }
 }
 
 function addInfoWindow(marker, message) {
 
+      
     var infoWindow = new google.maps.InfoWindow({
-        content: message
+        content: message,
+      
+        shadowStyle: 1,
+        padding: 10,      
+        backgroundColor: 'white',
+        borderRadius: 5,
+        arrowSize: 10,
+        borderWidth: 1,
+        maxWidth: 400,
+        borderColor: '#A85E45',
+        disableAutoPan: false,
+        hideCloseButton: true,
+        arrowPosition: 50,
+        backgroundClassName: 'phoney',
+        disableAutoPan: true,
+        hideCloseButton: false,
+        arrowStyle: 0
+        
     });
 
     google.maps.event.addListener(marker, 'click', function () {
         infoWindow.open(map, marker);
     });
+    
+    infoWindow.open(map, marker);
+    
 }
 
 
@@ -450,6 +478,7 @@ function refreshMarkers() {
         centerMarkersOnMap();
         humane.log("Map markers refreshed.");
     } catch (err) {
+        deleteMarkers();
         humane.log("Didn't found valid info for map refreshing.");
         Logger("refreshMarkers Exception:" + err);
     }
@@ -461,3 +490,4 @@ function centerMarkersOnMap() {
         return bounds.extend(marker.getPosition());
     }, new google.maps.LatLngBounds()))
 }
+
