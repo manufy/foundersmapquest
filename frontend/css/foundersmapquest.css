@@ -127,3 +127,21 @@
   color: #6fa0e9;
   background: #e7f0f7;
 }
+
+/* Combo CSV */
+
+#csvmapmarkerfield {
+    width:200px;
+}
+
+#csvlonfield {
+    width:200px;
+}
+
+#csvlatfield {
+    width:200px;
+}
+
+#selectcsv {
+    width:200px;
+}
