@@ -1,4 +1,4 @@
-Frontend Assessment
+﻿Frontend Assessment
 
 Founders Map Quest
 ------------------
@@ -7,7 +7,7 @@ Founders Map Quest
 2 - DataTable Render
 3 - Map Render
 
-a) HTML5 Frontend only at frontend3/foundersmapquest_v0.2html
+a) HTML5 Frontend only at foundersmapquest_v0.3.html. Just download the zip and open this file in your favourite browser. Demo data is included as downloadable.
 
 b) Future enhancements for backend, not used in this demo
 
