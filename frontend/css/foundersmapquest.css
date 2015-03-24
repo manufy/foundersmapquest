@@ -41,6 +41,10 @@
             width: 0;
         }
 
+.child {
+    background-color: #3F3F3F;
+}
+
 /*Set table width */
 
 #example {
@@ -51,7 +55,7 @@
     color: black;
 }
 
-/* Greenish table background */
+/* Greysh table background */
 
 #example tr  { background-color: #3B3B3B;}
 
@@ -126,4 +130,22 @@
 .questdropdown ul li a:hover {
   color: #6fa0e9;
   background: #e7f0f7;
+}
+
+/* Combo CSV */
+
+#csvmapmarkerfield {
+    width:200px;
+}
+
+#csvlonfield {
+    width:200px;
+}
+
+#csvlatfield {
+    width:200px;
+}
+
+#selectcsv {
+    width:200px;
 }

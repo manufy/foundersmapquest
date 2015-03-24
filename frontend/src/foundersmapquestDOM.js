@@ -21,11 +21,11 @@ var tableColums = [
                     },
     {
         "title": "Company Name",
-        "class": "min-tablet",
+        "class": "desktop",
                     },
     {
         "title": "Founder",
-        "class": "min-desktop",
+        "class": "desktopt",
                     },
     {
         "title": "City",
@@ -41,10 +41,11 @@ var tableColums = [
                     },
     {
         "title": "Street",
-        "class": "min-desktop",
+        "class": "desktop",
                     },
     {
         "title": "Photo",
+        "bSortable": false,
         "class": "desktop",
         // Render column as Image with Hyperlink // TAKES PRECEDENCE OVER FOUNDERSMAPQUEST.JS
         "mRender": function (data, type, full) {
