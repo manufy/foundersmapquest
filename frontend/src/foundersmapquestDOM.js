@@ -25,15 +25,15 @@ var tableColums = [
                     },
     {
         "title": "Founder",
-        "class": "desktopt",
+        "class": "tablet-l desktop",
                     },
     {
         "title": "City",
-        "class": "desktop"
+        "class": "tablet-l desktop"
                     },
     {
         "title": "Country",
-        "class": "desktop",
+        "class": "tablet-l desktop",
                     },
     {
         "title": "Postal Code",
@@ -159,7 +159,7 @@ $(document).ready(function () {
 
 function initializeMapDOM() {
     var mapOptions = {
-        zoom: 8,
+        zoom: 1,
         center: new google.maps.LatLng(37, 124.644),
         
            styles: [
